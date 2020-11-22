@@ -1,9 +1,25 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from django.contrib.auth.forms import UserCreationForm
 
+def login(request):
+    form = UserCreationForm()
+    context = {'form':form}
+    return render(request,'tasks/login.html',context)
+def register(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+    context = {'form':form}
+    return render(request,'tasks/register.html',context)
 
 def index(request):
+    
     mods = Task.objects.all()
 
     form = TaskForm()
